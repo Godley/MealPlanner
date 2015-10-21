@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for scrapy_meals project
+# Scrapy settings for scrapymeals project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -8,22 +8,20 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+
+BOT_NAME = 'scrapymeals'
+
+SPIDER_MODULES = ['spiders']
+NEWSPIDER_MODULE = 'spiders'
 import sys
 import os
 
 
-sys.path.append(os.path.join('C:','Users','crg','PycharmProjects','DjangoMealWorkspace','DjangoMeals'))
-print sys.path
+sys.path.append('C:\\Users\\crg\\PycharmProjects\\DjangoMealWorkspace\\DjangoMeals')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'DjangoMeals.settings'
 
-BOT_NAME = 'scrapy_meals'
-
-SPIDER_MODULES = ['scrapy_meals.spiders']
-NEWSPIDER_MODULE = 'scrapy_meals.spiders'
-
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrapy_meals (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrapymeals (+http://www.yourdomain.com)'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -51,13 +49,13 @@ NEWSPIDER_MODULE = 'scrapy_meals.spiders'
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'scrapy_meals.middlewares.MyCustomSpiderMiddleware': 543,
+#    'scrapymeals.middlewares.MyCustomSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'scrapy_meals.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'scrapymeals.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -68,9 +66,9 @@ NEWSPIDER_MODULE = 'scrapy_meals.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'scrapy_meals.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'pipelines.GoodFoodPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -89,3 +87,4 @@ NEWSPIDER_MODULE = 'scrapy_meals.spiders'
 #HTTPCACHE_EXPIRATION_SECS=0
 #HTTPCACHE_DIR='httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES=[]
+#HTTPCACHE_STORAGE='scrapy.extensions.httpcache.FilesystemCacheStorage'
