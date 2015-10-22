@@ -4,10 +4,6 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
 
-
-
-
-
 class Menu(models.Model):
     recipes = models.ManyToManyField(Recipe)
     pub_date = models.DateTimeField('date published')

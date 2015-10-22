@@ -67,7 +67,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'DjangoMeals.settings'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'pipelines.GoodFoodPipeline': 300,
+   'pipelines.GoodFoodStockPipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
