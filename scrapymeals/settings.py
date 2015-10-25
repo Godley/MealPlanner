@@ -17,7 +17,7 @@ import sys
 import os
 
 
-sys.path.append('C:\\Users\\crg\\PycharmProjects\\DjangoMealWorkspace\\DjangoMeals')
+sys.path.append('/Users/charlottegodley/PycharmProjects/MealPlanner/DjangoMeals')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'DjangoMeals.settings'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

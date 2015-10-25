@@ -11,7 +11,6 @@ import django
 
 
 
-
 class GoodfoodSpider(CrawlSpider):
     name = "goodfood"
     allowed_domains = ["bbcgoodfood.com"]
@@ -31,7 +30,7 @@ class GoodfoodSpider(CrawlSpider):
         hxs = HtmlXPathSelector(response)
         item = RecipeItem()
         item["title"] = hxs.select("//title/text()").extract()
-        ingredients = hxs.select("//li[@itemprop='ingredients']/text()")
+        ingredients = hxs.select("//li[@itemprop='ingredients']")
         values = {}
         values["stock"] = []
         for ingredient in ingredients:
@@ -48,7 +47,7 @@ class GoodfoodSpider(CrawlSpider):
         items = []
         for title in titles:
             item = StockItem()
-            item["title"] = title.extract()
+            item["title"] = title.extract().lower()
             items.append(item)
         return(items)
 
