@@ -11,6 +11,7 @@ class Menu(models.Model):
 
 class Stock(models.Model):
     title = models.CharField(max_length=200)
+    original = models.CharField(max_length=200)
     quantity = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     recipes = models.ManyToManyField(Recipe)

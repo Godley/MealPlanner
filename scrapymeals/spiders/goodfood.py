@@ -37,6 +37,7 @@ class GoodfoodSpider(CrawlSpider):
             name = ingredient.extract()
             stock_item = StockItem()
             stock_item['title'] = name
+            stock_item['original'] = name
             values["stock"].append(stock_item)
         values["item"] = item
         yield values
