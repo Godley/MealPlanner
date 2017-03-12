@@ -1,9 +1,22 @@
 {% load markdown_filter %}
+{% load duration_filter %}
 {% if recipe %}
+    <h2>Time</h2>
+    <ul>
+    <li>Marinade time: {{ recipe.marinade_time|duration }}</li>
+    <li>Prep time: {{ recipe.prep_time|duration }}</li>
+    <li>Cook time: {{ recipe.cook_time|duration }}</li>
+    </ul>
     <h2>Ingredients</h2>
     <ul>
     {% for item in recipe.ingredient_set.all %}
-        <li>{{ item }}</li>
+        <li>{% if item.item.link != "" %}
+            <a href="{{ item.item.link }}">
+            {% endif %}
+            {{ item }}
+            {% if item.item.link != "" %}
+            </a>
+            {% endif %}</li>
     {% endfor %}
     </ul>
     <h2>Method</h2>

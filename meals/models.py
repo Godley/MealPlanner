@@ -64,7 +64,7 @@ class Ingredient(models.Model):
         decimal = self.quantity - whole_num
 
         if whole_num > 0.0:
-            desc += str(whole_num)
+            desc += str(whole_num) + " "
 
         if decimal > 0.0:
             small_num = Fraction(decimal)
