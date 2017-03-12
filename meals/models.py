@@ -9,7 +9,7 @@ class Unit(models.Model):
     nickname = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        if self.nickname is not None:
+        if self.nickname != "":
             return self.nickname
         else:
             return self.name
