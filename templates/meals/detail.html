@@ -20,6 +20,12 @@
             {% endif %}</li>
     {% endfor %}
     </ul>
+    <h2>Utensils</h2>
+    <ul>
+    {% for item in recipe.utensils.all %}
+    <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
     <h2>Method</h2>
     {{ recipe.instructions|markdownify|safe }}
 {% else %}
