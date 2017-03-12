@@ -8,6 +8,7 @@
     <li>Cook time: {{ recipe.cook_time|duration }}</li>
     </ul>
     <h2>Ingredients</h2>
+    For: {{ recipe.portions }} people
     <ul>
     {% for item in recipe.ingredient_set.all %}
         <li>{% if item.item.link != "" %}
