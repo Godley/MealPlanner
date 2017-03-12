@@ -1,0 +1,13 @@
+{% load markdown_filter %}
+{% if recipe %}
+    <h2>Ingredients</h2>
+    <ul>
+    {% for item in recipe.ingredient_set.all %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Method</h2>
+    {{ recipe.instructions|markdownify|safe }}
+{% else %}
+    <p>Invalid recipe id.</p>
+{% endif %}

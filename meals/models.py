@@ -1,4 +1,7 @@
 from django.db import models
+import math, datetime
+from fractions import Fraction
+
 
 # Create your models here.
 class Unit(models.Model):
@@ -6,7 +9,10 @@ class Unit(models.Model):
     nickname = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        return self.name
+        if self.nickname is not None:
+            return self.nickname
+        else:
+            return self.name
 
 
 class StockItem(models.Model):
@@ -37,6 +43,9 @@ class Recipe(models.Model):
     utensils = models.ManyToManyField(Utensil, blank=True)
     portions = models.IntegerField(default=2)
     category = models.ForeignKey(Category, default=None, null=True)
+    marinade_time = models.DurationField(default=datetime.timedelta())
+    prep_time = models.DurationField(default=datetime.timedelta())
+    cook_time = models.DurationField(default=datetime.timedelta())
 
     def __str__(self):
         return self.title
@@ -50,7 +59,17 @@ class Ingredient(models.Model):
     instruction = models.CharField(max_length=40, blank=True)
 
     def __str__(self):
-        desc = str(self.quantity) + " "
+        desc = ""
+        whole_num = math.floor(self.quantity)
+        decimal = self.quantity - whole_num
+
+        if whole_num > 0.0:
+            desc += str(whole_num)
+
+        if decimal > 0.0:
+            small_num = Fraction(decimal)
+            desc += str(small_num)
+        desc += " "
         if self.units is not None:
             desc += str(self.units) + " "
 
