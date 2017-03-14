@@ -33,8 +33,17 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=20)),
                 ('instructions', models.TextField()),
                 ('portions', models.IntegerField(default=2)),
-                ('time', models.DurationField(default=datetime.timedelta(0))),
+                ('marinade_time', models.DurationField(default=datetime.timedelta(0))),
+                ('prep_time', models.DurationField(default=datetime.timedelta(0))),
+                ('cook_time', models.DurationField(default=datetime.timedelta(0))),
                 ('category', models.ForeignKey(default=None, to='meals.Category', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Stock',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('quantity', models.FloatField(blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -59,6 +68,16 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=40)),
             ],
+        ),
+        migrations.AddField(
+            model_name='stock',
+            name='item',
+            field=models.ForeignKey(to='meals.StockItem'),
+        ),
+        migrations.AddField(
+            model_name='stock',
+            name='units',
+            field=models.ForeignKey(blank=True, to='meals.Unit', null=True),
         ),
         migrations.AddField(
             model_name='recipe',

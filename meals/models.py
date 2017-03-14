@@ -79,6 +79,18 @@ class Ingredient(models.Model):
             desc += ", " + self.instruction
         return desc
 
+class Stock(models.Model):
+    item = models.OneToOneField(StockItem)
+    quantity = models.FloatField(blank=True)
+    units = models.ForeignKey(Unit, null=True, blank=True)
+    shelf = models.CharField(max_length=100, blank=True)
 
+    def __str__(self):
+        desc = str(self.quantity)
+        if self.units:
+            desc += str(self.units)
+        desc += " "
+        desc += str(self.item)
+        return desc
 
 
