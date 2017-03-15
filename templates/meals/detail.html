@@ -1,6 +1,11 @@
 {% load markdown_filter %}
 {% load duration_filter %}
 {% if recipe %}
+    <form action="/meals/cooked/" method="POST">
+        {% csrf_token %}
+        <label for="portions">Portions:</label><input type="text" name="portions" />
+        <input type="submit" value="cooked!" />
+    </form>
     <h2>Time</h2>
     <ul>
     <li>Marinade time: {{ recipe.marinade_time|duration }}</li>
