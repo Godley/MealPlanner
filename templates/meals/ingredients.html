@@ -1,0 +1,20 @@
+{% if shoppinglist %}
+    <ul>
+    {% for item, value in shoppinglist.items %}
+        <li>{{ value.0 }}
+            {% if value.1 %}
+                {{ value.1 }}
+            {% endif %}
+            {{ item }}</li>
+    {% endfor %}
+    </ul>
+    <h1>Copy pasta</h1>
+    <textarea style="height:500px;width:300px;">
+        {% for item in shoppinglist %}
+            {{ item }}
+        {% endfor %}
+    </textarea>
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
