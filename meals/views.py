@@ -3,15 +3,22 @@ from django.views import View
 from meals.models import Recipe, Category, Stock, StockItem, Ingredient
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
+import datetime
+
 
 def convert_units(stock_units, ingredient_units, value):
-    table = {"tsp": {"g": lambda x: x*5},
+    table = {"tsp": {"g": lambda x: x*5,
+                     "ml": lambda x: x*5},
              "tbsp": {"g": lambda x: x*15,
                       "tsp": lambda x: x*3,
-                      "ml": lambda x: x*15,},
+                      "ml": lambda x: x*15,
+                      "l": lambda x: x*15/1000,
+                      "kg": lambda x: x*15/1000},
              "cup": {"g": lambda x: x*200,
-                     "kg": lambda x: x*0.2},
-             "pound": {"g": lambda x: x*453}}
+                     "kg": lambda x: x*0.2,
+                     "ml": lambda x:x*236},
+             "pound": {"g": lambda x: x*453},
+             "g": {"kg": lambda x: x / 1000}}
     return table[ingredient_units][stock_units](value)
 
 # Create your views here.
@@ -57,7 +64,8 @@ class Cooked(View):
                 elem.save()
             except ObjectDoesNotExist:
                 print("not in stock, continuing")
-
+        recipe.last_cooked = datetime.datetime.now()
+        recipe.save()
         return HttpResponse(content="Updated stock successfully")
 
 class TwoWeeksRecipes(View):
@@ -90,15 +98,35 @@ class TwoWeeksFood(View):
         ingredients = {}
         for recipe in meals:
             ing = recipe.ingredient_set.all()
+
             for ingredient in ing:
                 name = ingredient.item.name
                 units = None
+                quantity = ingredient.quantity
                 if ingredient.units:
                     units = str(ingredient.units)
-                if name not in ingredients:
-                    ingredients[name] = (ingredient.quantity, units)
-                else:
-                    new_value = (ingredients[name][0] + ingredient.quantity, units)
-                    ingredients[name] = new_value
+                add = True
+                try:
+                    stock = Stock.objects.get(item=ingredient.item)
+                    if str(ingredient.units) == str(stock.units):
+                        new_quantity = ingredient.quantity - stock.quantity
+                        if new_quantity <= 0:
+                            add = False
+                    else:
+                        new_quantity = convert_units(str(stock.units), str(ingredient.units), ingredient.quantity)
+                        new_quantity = new_quantity - stock.quantity
+                        units = str(stock.units)
+                        if new_quantity <= 0:
+                            add = False
+
+                except ObjectDoesNotExist:
+                    add = True
+
+                if add:
+                    if name not in ingredients:
+                        ingredients[name] = (quantity, units)
+                    else:
+                        new_value = (ingredients[name][0] + quantity, units)
+                        ingredients[name] = new_value
         context = {'shoppinglist': ingredients}
         return render(request, 'meals/ingredients.html', context)

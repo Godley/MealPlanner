@@ -46,6 +46,7 @@ class Recipe(models.Model):
     marinade_time = models.DurationField(default=datetime.timedelta())
     prep_time = models.DurationField(default=datetime.timedelta())
     cook_time = models.DurationField(default=datetime.timedelta())
+    last_cooked = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.title
