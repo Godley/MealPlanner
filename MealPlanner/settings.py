@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+LOGIN_URL = '/admin/login/'
 ROOT_URLCONF = 'MealPlanner.urls'
 
 TEMPLATES = [

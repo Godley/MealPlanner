@@ -4,6 +4,8 @@ from meals.models import Recipe, Category, Stock, StockItem, Ingredient
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def convert_units(stock_units, ingredient_units, value):
@@ -22,13 +24,13 @@ def convert_units(stock_units, ingredient_units, value):
     return table[ingredient_units][stock_units](value)
 
 # Create your views here.
-class RecipeView(View):
+class RecipeView(LoginRequiredMixin, View):
     def get(self, request):
         recipes = Recipe.objects.all()
         context = {'latest_recipe_list': recipes}
         return render(request, 'meals/index.html', context)
 
-class DetailView(View):
+class DetailView(LoginRequiredMixin, View):
     def get(self, request, recipe_id):
         recipe = Recipe.objects.filter(pk=recipe_id)[0]
         context = {'recipe': recipe}
@@ -38,7 +40,7 @@ class DetailView(View):
         request.session['recipe'] = recipe_id
         return render(request, 'meals/detail.html', context)
 
-class Cooked(View):
+class Cooked(LoginRequiredMixin, View):
     def post(self, request):
         ingredients = request.session['ingredients']
         recipe = request.session['recipe']
@@ -68,7 +70,7 @@ class Cooked(View):
         recipe.save()
         return HttpResponse(content="Updated stock successfully")
 
-class TwoWeeksRecipes(View):
+class TwoWeeksRecipes(LoginRequiredMixin, View):
     def get(self, request):
         main = Category.objects.filter(name="main")[:1].all()
         full = Category.objects.filter(name="full_meal")[:1].all()
@@ -85,7 +87,7 @@ class TwoWeeksRecipes(View):
         request.session['meals'] = [meal.pk for meal in meals]
         return render(request, 'meals/menu.html', context)
 
-class TwoWeeksFood(View):
+class TwoWeeksFood(LoginRequiredMixin, View):
     def get(self, request):
         meals = request.session['meals']
         ingredients = {}
