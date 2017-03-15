@@ -82,24 +82,15 @@ class TwoWeeksRecipes(View):
         meals.extend(recipes_sides)
         meals.extend(recipes)
         context = {'latest_recipe_list': meals}
-        return render(request, 'meals/index.html', context)
+        request.session['meals'] = [meal.pk for meal in meals]
+        return render(request, 'meals/menu.html', context)
 
 class TwoWeeksFood(View):
     def get(self, request):
-        main = Category.objects.filter(name="main")[:1].all()
-        full = Category.objects.filter(name="full_meal")[:1].all()
-        side = Category.objects.filter(name="side")[:1].all()
-        today = datetime.datetime.now()
-        recipes = Recipe.objects.filter(category=main[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-
-        recipes_meals = Recipe.objects.filter(category=full[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-        recipes_sides = Recipe.objects.filter(category=side[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-        meals = list()
-        meals.extend(recipes_meals)
-        meals.extend(recipes_sides)
-        meals.extend(recipes)
+        meals = request.session['meals']
         ingredients = {}
-        for recipe in meals:
+        for pk in meals:
+            recipe = Recipe.objects.get(pk=pk)
             ing = recipe.ingredient_set.all()
 
             for ingredient in ing:
