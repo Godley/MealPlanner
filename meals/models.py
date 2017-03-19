@@ -43,7 +43,7 @@ class Recipe(models.Model):
     cook_time = models.DurationField(default=datetime.timedelta())
     last_cooked = models.DateField(blank=True, null=True)
     category = models.CharField(max_length=30, blank=True)
-    sides = models.ManyToManyField('self', blank=True, null=True)
+    sides = models.ManyToManyField('self', blank=True)
     objects = models.Manager()
     random = RandomManager()
 

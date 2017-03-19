@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from backend.meals.models import Recipe, Stock, StockItem
+from meals.models import Recipe, Stock, StockItem
 
 
 def convert_units(stock_units, ingredient_units, value):

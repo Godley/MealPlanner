@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from backend.meals.models import *
+from meals.models import *
 
 
 # Register your models here.

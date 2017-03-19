@@ -1,7 +1,7 @@
 {% load markdown_filter %}
 {% load duration_filter %}
 {% if recipe %}
-    <form action="/backend/meals/cooked/" method="POST">
+    <form action="/meals/cooked/" method="POST">
         {% csrf_token %}
         <label for="portions">Portions:</label><input type="text" name="portions" />
         <input type="submit" value="cooked!" />
