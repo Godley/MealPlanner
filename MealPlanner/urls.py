@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from tastypie.api import Api
 
-from backend.meals.api.resources import RecipeResource, MenuResource
+from meals.api.resources import RecipeResource, MenuResource
 
 
 v1_api = Api(api_name='v1')

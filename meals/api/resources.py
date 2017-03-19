@@ -4,7 +4,7 @@ from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization
 from tastypie import fields
 
-from backend.meals.models import Recipe
+from meals.models import Recipe
 
 
 TODAY = datetime.datetime.now()
@@ -18,7 +18,7 @@ class RecipeResource(ModelResource):
 
 
 class MenuResource(ModelResource):
-    sides = fields.ManyToManyField(RecipeResource, 'sides', null=True)
+    sides = fields.ManyToManyField(RecipeResource, 'sides', null=True, full=True)
     class Meta:
         queryset = Recipe.random.exclude(last_cooked__gte=datetime.datetime(TODAY.year, TODAY.month, TODAY.day - 14)).exclude(category='side').exclude(category='marinade').all()
         allowed_methods = ['get']
