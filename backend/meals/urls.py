@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import views
+from backend.meals import views
 
 urlpatterns = [
     url(r'^$', views.RecipeView.as_view(), name='index'),

@@ -3,6 +3,10 @@ import math, datetime
 from fractions import Fraction
 
 
+class RandomManager(models.Manager):
+    def get_query_set(self):
+        return super(RandomManager, self).get_query_set().order_by('?')
+
 # Create your models here.
 class Unit(models.Model):
     name = models.CharField(max_length=20)
@@ -29,24 +33,19 @@ class Utensil(models.Model):
     def __str__(self):
         return self.name
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
-
-
 class Recipe(models.Model):
     title = models.CharField(max_length=20)
     instructions = models.TextField()
     utensils = models.ManyToManyField(Utensil, blank=True)
     portions = models.IntegerField(default=2)
-    category = models.ForeignKey(Category, default=None, null=True)
     marinade_time = models.DurationField(default=datetime.timedelta())
     prep_time = models.DurationField(default=datetime.timedelta())
     cook_time = models.DurationField(default=datetime.timedelta())
     last_cooked = models.DateField(blank=True, null=True)
+    category = models.CharField(max_length=30, blank=True)
+    sides = models.ManyToManyField('self', blank=True, null=True)
+    objects = models.Manager()
+    random = RandomManager()
 
     def __str__(self):
         return self.title

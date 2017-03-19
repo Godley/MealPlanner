@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'meals.apps.MealsConfig'
+    'meals.apps.MealsConfig',
+    'tastypie'
 ]
 
 MIDDLEWARE = [
@@ -50,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 LOGIN_URL = '/admin/login/'
-ROOT_URLCONF = 'MealPlanner.urls'
+ROOT_URLCONF = 'backend.MealPlanner.urls'
 
 TEMPLATES = [
     {
