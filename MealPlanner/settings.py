@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meals.apps.MealsConfig',
-    'tastypie'
+    'tastypie',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -49,7 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000'
+)
 LOGIN_URL = '/admin/login/'
 ROOT_URLCONF = 'MealPlanner.urls'
 
@@ -82,7 +88,7 @@ DATABASES = {
     }
 }
 
-
+print(DATABASES['default']['NAME'])
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
