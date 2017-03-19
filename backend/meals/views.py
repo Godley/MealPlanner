@@ -1,11 +1,12 @@
+import datetime
+
 from django.http import HttpResponse
 from django.views import View
-from meals.models import Recipe, Category, Stock, StockItem, Ingredient
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from backend.meals.models import Recipe, Stock, StockItem
 
 
 def convert_units(stock_units, ingredient_units, value):

@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 LOGIN_URL = '/admin/login/'
-ROOT_URLCONF = 'MealPlanner.urls'
+ROOT_URLCONF = 'backend.MealPlanner.urls'
 
 TEMPLATES = [
     {
