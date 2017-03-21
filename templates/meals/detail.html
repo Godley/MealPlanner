@@ -1,0 +1,38 @@
+{% load markdown_filter %}
+{% load duration_filter %}
+{% if recipe %}
+    <form action="/meals/cooked/" method="POST">
+        {% csrf_token %}
+        <label for="portions">Portions:</label><input type="text" name="portions" />
+        <input type="submit" value="cooked!" />
+    </form>
+    <h2>Time</h2>
+    <ul>
+    <li>Marinade time: {{ recipe.marinade_time|duration }}</li>
+    <li>Prep time: {{ recipe.prep_time|duration }}</li>
+    <li>Cook time: {{ recipe.cook_time|duration }}</li>
+    </ul>
+    <h2>Ingredients</h2>
+    For: {{ recipe.portions }} people
+    <ul>
+    {% for item in recipe.ingredient_set.all %}
+        <li>{% if item.item.link != "" %}
+            <a href="{{ item.item.link }}">
+            {% endif %}
+            {{ item }}
+            {% if item.item.link != "" %}
+            </a>
+            {% endif %}</li>
+    {% endfor %}
+    </ul>
+    <h2>Utensils</h2>
+    <ul>
+    {% for item in recipe.utensils.all %}
+    <li>{{ item }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Method</h2>
+    {{ recipe.instructions|markdownify|safe }}
+{% else %}
+    <p>Invalid recipe id.</p>
+{% endif %}
