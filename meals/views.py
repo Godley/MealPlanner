@@ -73,19 +73,12 @@ class Cooked(LoginRequiredMixin, View):
 
 class TwoWeeksRecipes(LoginRequiredMixin, View):
     def get(self, request):
-        main = Category.objects.filter(name="main")[:1].all()
-        full = Category.objects.filter(name="full_meal")[:1].all()
-        side = Category.objects.filter(name="side")[:1].all()
         today = datetime.datetime.now()
-        recipes = Recipe.objects.filter(category=main[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-        recipes_meals = Recipe.objects.filter(category=full[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-        recipes_sides = Recipe.objects.filter(category=side[0]).exclude(last_cooked__gte=datetime.datetime(today.year, today.month, today.day - 14))[:5].all()
-        meals = list()
-        meals.extend(recipes_meals)
-        meals.extend(recipes_sides)
-        meals.extend(recipes)
-        context = {'latest_recipe_list': meals}
-        request.session['meals'] = [meal.pk for meal in meals]
+        d = datetime.timedelta(days=14)
+        limit = datetime.datetime(today.year, today.month, today.day) - d
+        queryset = Recipe.random.exclude(last_cooked__gte=limit).exclude(category='side').exclude(category='marinade')[:10].all()
+        context = {'latest_recipe_list': queryset}
+        request.session['meals'] = [meal.pk for meal in queryset]
         return render(request, 'meals/menu.html', context)
 
 class TwoWeeksFood(LoginRequiredMixin, View):

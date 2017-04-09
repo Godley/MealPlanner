@@ -49,6 +49,6 @@ class RecipeResource(ModelResource):
 class MenuResource(ModelResource):
     sides = fields.ManyToManyField(RecipeResource, 'sides', null=True, full=True)
     class Meta:
-        queryset = Recipe.random.exclude(last_cooked__gte=datetime.datetime(TODAY.year, TODAY.month, TODAY.day - 14)).exclude(category='side').exclude(category='marinade')[:10].all()
+        queryset = Recipe.random.exclude(last_cooked__gte=datetime.datetime(TODAY.year, TODAY.month, TODAY.day) - datetime.timedelta(days=14)).exclude(category='side').exclude(category='marinade')[:10].all()
         allowed_methods = ['get']
         authorization = Authorization()
